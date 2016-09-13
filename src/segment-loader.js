@@ -630,7 +630,7 @@ export default class SegmentLoader extends videojs.EventTarget {
 
     // timeout of previously aborted request
     if (!this.xhr_ ||
-        (request !== this.xhr_.segmentXhr && request !== this.xhr_.keyXhr)) {
+        (request !== this.xhr_.segmentXhr && !this.xhr_.segmentXhr.loadingSegment) && request !== this.xhr_.keyXhr) {
       return;
     }
 
@@ -670,7 +670,7 @@ export default class SegmentLoader extends videojs.EventTarget {
       return;
     }
 
-    if (request === this.xhr_.segmentXhr) {
+    if (request === this.xhr_.segmentXhr || this.xhr_.segmentXhr.loadingSegment) {
       // the segment request is no longer outstanding
       this.xhr_.segmentXhr = null;
 
